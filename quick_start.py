@@ -100,11 +100,7 @@ plt.savefig("data.png", bbox_inches="tight")
 #
 # The next step is to load the b-values and b-vectors from the disk using
 # the function ``read_bvals_bvecs``.
-print(fbval)
-print(fbvec)
 
-print(type(fbval))
-print(type(fbvec))
 bvals, bvecs = read_bvals_bvecs(str(fbval), str(fbvec))
 
 

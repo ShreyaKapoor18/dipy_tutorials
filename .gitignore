@@ -1,0 +1,13 @@
+# Generated outputs
+*.png
+*.nii.gz
+*.txt
+
+# Jupyter
+.ipynb_checkpoints/
+**(2).ipynb
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
