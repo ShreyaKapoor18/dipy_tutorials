@@ -82,12 +82,12 @@ print(img.header.get_zooms()[:3])
 # let's show here the middle axial slices of volume 0 and volume 10.
 
 axial_middle = data.shape[2] // 2
-plt.figure("Showing the datasets")
+plt.figure("Showing the datasets", facecolor="white")
 plt.subplot(1, 2, 1).set_axis_off()
 plt.imshow(data[:, :, axial_middle, 0].T, cmap="gray", origin="lower")
 plt.subplot(1, 2, 2).set_axis_off()
 plt.imshow(data[:, :, axial_middle, 10].T, cmap="gray", origin="lower")
-plt.savefig("images/data.png", bbox_inches="tight")
+plt.savefig("tracking_quickstart_output/images/data.png", bbox_inches="tight")
 plt.show()
 
 ###############################################################################
@@ -147,7 +147,7 @@ print(S0s.shape)
 ###############################################################################
 # Just, for fun let's save this in a new Nifti file.
 
-save_nifti("data/HARDI193_S0.nii.gz", S0s, affine)
+save_nifti("tracking_quickstart_output/data/HARDI193_S0.nii.gz", S0s, affine)
 
 ###############################################################################
 # Now, that we learned how to load dMRI datasets we can start the analysis.
