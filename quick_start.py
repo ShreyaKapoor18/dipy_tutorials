@@ -147,7 +147,7 @@ print(S0s.shape)
 ###############################################################################
 # Just, for fun let's save this in a new Nifti file.
 
-save_nifti("HARDI193_S0.nii.gz", S0s, affine)
+save_nifti("data/HARDI193_S0.nii.gz", S0s, affine)
 
 ###############################################################################
 # Now, that we learned how to load dMRI datasets we can start the analysis.
