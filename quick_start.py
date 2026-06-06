@@ -87,8 +87,8 @@ plt.subplot(1, 2, 1).set_axis_off()
 plt.imshow(data[:, :, axial_middle, 0].T, cmap="gray", origin="lower")
 plt.subplot(1, 2, 2).set_axis_off()
 plt.imshow(data[:, :, axial_middle, 10].T, cmap="gray", origin="lower")
-plt.show()
 plt.savefig("images/data.png", bbox_inches="tight")
+plt.show()
 
 ###############################################################################
 # .. rst-class:: centered small fst-italic fw-semibold
