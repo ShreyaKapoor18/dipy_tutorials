@@ -1,3 +1,19 @@
+"""
+===============================
+Parallel Transport Tractography
+===============================
+
+This example demonstrates fiber tracking using the Parallel Transport
+Tractography (PTT) algorithm :footcite:p:`Aydogan2021`.
+
+PTT propagates streamlines along a frame field that is parallel-transported
+along the fiber curve, producing smooth, anatomically plausible tracts.
+
+The pipeline here uses a Constrained Spherical Deconvolution (CSD) model to
+estimate fiber orientation distributions (FODs) from Stanford HARDI data,
+then runs PTT seeded from the corpus callosum (label 2).
+"""
+
 from dipy.core.gradients import gradient_table
 from dipy.data import default_sphere, get_fnames
 from dipy.io.gradients import read_bvals_bvecs

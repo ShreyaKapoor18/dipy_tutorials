@@ -1,3 +1,15 @@
+"""
+================
+Reslice Datasets
+================
+
+Diffusion MRI data is sometimes acquired with anisotropic voxel sizes (e.g.,
+different resolution in the slice direction). This example shows how to
+reslice such a dataset to isotropic voxels using ``dipy.align.reslice``.
+
+The resliced volume is saved in both NIfTI and SPM Analyze formats.
+"""
+
 import nibabel as nib
 
 from dipy.align.reslice import reslice
