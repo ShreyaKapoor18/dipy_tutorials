@@ -10,11 +10,21 @@ but tailored to the needs of structural and diffusion imaging.
 Let's start by importing the necessary modules.
 """
 
+import os
+
 import numpy as np
 
 from dipy.data.fetcher import fetch_bundles_2_subjects, read_bundles_2_subjects
 from dipy.tracking.streamline import Streamlines
 from dipy.viz import actor, ui, window
+
+try:
+    import imageio
+    from vtk.util import numpy_support
+
+    _recording_available = True
+except ImportError:
+    _recording_available = False
 
 ###############################################################################
 # In ``window`` we have all the objects that connect what needs to be rendered
@@ -37,6 +47,8 @@ from dipy.viz import actor, ui, window
 # a ``LineSlider2D`` widget.
 #
 # First we need to fetch and load some datasets.
+
+os.makedirs("viz_advanced", exist_ok=True)
 
 fetch_bundles_2_subjects()
 
@@ -258,20 +270,56 @@ show_m.initialize()
 # Finally, please set the following variable to ``True`` to interact with the
 # datasets in 3D.
 
-interactive = False
+interactive = True
+
+###############################################################################
+# Set ``record_video`` to ``True`` to save a recording of the session to
+# ``viz_advanced_tutorial.mp4``. Requires ``imageio`` and ``imageio-ffmpeg``.
+
+record_video = True
+video_path = "viz_advanced/viz_advanced_tutorial.mp4"
 
 scene.zoom(1.5)
 scene.reset_clipping_range()
 
 if interactive:
     show_m.add_window_callback(win_callback)
+
+    if record_video and _recording_available:
+        import vtk
+
+        _video_writer = imageio.get_writer(video_path, fps=24, macro_block_size=1)
+        _w2if = vtk.vtkWindowToImageFilter()
+        _w2if.SetInput(show_m.window)
+        _w2if.ReadFrontBufferOff()
+
+        def _record_frame(obj, event):
+            _w2if.Modified()
+            _w2if.Update()
+            vtk_image = _w2if.GetOutput()
+            width, height, _ = vtk_image.GetDimensions()
+            scalars = vtk_image.GetPointData().GetScalars()
+            n_components = scalars.GetNumberOfComponents()
+            frame = numpy_support.vtk_to_numpy(scalars).reshape(
+                height, width, n_components
+            )
+            _video_writer.append_data(np.flipud(frame))
+
+        show_m.add_timer_callback(True, 42, _record_frame)
+
     show_m.render()
     show_m.start()
+
+    if record_video and _recording_available:
+        _video_writer.close()
+        print(f"Recording saved to {video_path}")
+    elif record_video and not _recording_available:
+        print("Screen recording skipped: install imageio and imageio-ffmpeg to enable.")
 
 else:
     window.record(
         scene=scene,
-        out_path="bundles_and_3_slices.png",
+        out_path="viz_advanced/bundles_and_3_slices.png",
         size=(1200, 900),
         reset_camera=False,
     )

@@ -22,6 +22,8 @@ to create a tractography reconstruction from a diffusion data set.
 Let's begin by importing the necessary modules.
 """
 
+import os
+
 import matplotlib.pyplot as plt
 
 from dipy.core.gradients import gradient_table
@@ -48,6 +50,8 @@ if has_fury:
 
 # Enables/disables interactive visualization
 interactive = False
+
+os.makedirs("tracking_introduction_eudx", exist_ok=True)
 
 hardi_fname, hardi_bval_fname, hardi_bvec_fname = get_fnames(name="stanford_hardi")
 label_fname = get_fnames(name="stanford_labels")
@@ -100,7 +104,7 @@ if has_fury:
         )
     )
 
-    window.record(scene=scene, out_path="images_tracking_output/csa_direction_field.png", size=(900, 900))
+    window.record(scene=scene, out_path="tracking_introduction_eudx/csa_direction_field.png", size=(900, 900))
 
     if interactive:
         window.show(scene, size=(800, 800))
@@ -133,7 +137,7 @@ plt.imshow(csa_peaks.gfa[:, :, sli].T, cmap="gray", origin="lower")
 plt.subplot(1, 2, 2).set_axis_off()
 plt.imshow((csa_peaks.gfa[:, :, sli] > 0.25).T, cmap="gray", origin="lower")
 
-plt.savefig("images_tracking_output/gfa_tracking_mask.png")
+plt.savefig("tracking_introduction_eudx/gfa_tracking_mask.png")
 
 ###############################################################################
 # .. rst-class:: centered small fst-italic fw-semibold
@@ -186,7 +190,7 @@ if has_fury:
     scene.add(streamlines_actor)
 
     # Save still images for this static example. Or for interactivity use
-    window.record(scene=scene, out_path="images_tracking_output/tractogram_EuDX.png", size=(800, 800))
+    window.record(scene=scene, out_path="tracking_introduction_eudx/tractogram_EuDX.png", size=(800, 800))
     if interactive:
         window.show(scene)
 
@@ -203,7 +207,7 @@ if has_fury:
 # loaded into other software for visualization or further analysis.
 
 sft = StatefulTractogram(streamlines, hardi_img, Space.RASMM)
-save_tractogram(sft, "images_tracking_output/tractogram_EuDX.trx")
+save_tractogram(sft, "tracking_introduction_eudx/tractogram_EuDX.trx")
 
 ###############################################################################
 # References

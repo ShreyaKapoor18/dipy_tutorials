@@ -14,6 +14,8 @@ estimate fiber orientation distributions (FODs) from Stanford HARDI data,
 then runs PTT seeded from the corpus callosum (label 2).
 """
 
+import os
+
 from dipy.core.gradients import gradient_table
 from dipy.data import default_sphere, get_fnames
 from dipy.io.gradients import read_bvals_bvecs
@@ -65,14 +67,15 @@ streamline_generator = ptt_tracking(
 streamlines = Streamlines(streamline_generator)
 
 # ── Save ──────────────────────────────────────────────────────────────────────
+os.makedirs("tracking_ptt", exist_ok=True)
 sft = StatefulTractogram(streamlines, hardi_img, Space.RASMM)
-save_tractogram(sft, "tracking_ptt_output/tractogram_ptt.trk")  # ← .trk not .trx (no extra dep)
+save_tractogram(sft, "tracking_ptt/tractogram_ptt.trk")  # ← .trk not .trx (no extra dep)
 
 # ── Visualise ─────────────────────────────────────────────────────────────────
 if has_fury:
     scene = window.Scene()
     scene.add(actor.line(streamlines, colors=colormap.line_colors(streamlines)))
-    window.record(scene=scene, out_path="tracking_ptt_output/tractogram_ptt.png", size=(800, 800))
+    window.record(scene=scene, out_path="tracking_ptt/tractogram_ptt.png", size=(800, 800))
     if interactive:
         window.show(scene)
 ###################################################

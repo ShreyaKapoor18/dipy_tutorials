@@ -14,6 +14,7 @@ their own datasets.
 Let's start with some necessary imports.
 """
 
+import os
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -27,6 +28,7 @@ from dipy.io.image import load_nifti, save_nifti
 # With the following commands we can download a dMRI dataset
 
 fetch_sherbrooke_3shell()
+os.makedirs("quick_start", exist_ok=True)
 
 ###############################################################################
 # By default these datasets will go in the ``.dipy`` folder inside your home
@@ -87,7 +89,7 @@ plt.subplot(1, 2, 1).set_axis_off()
 plt.imshow(data[:, :, axial_middle, 0].T, cmap="gray", origin="lower")
 plt.subplot(1, 2, 2).set_axis_off()
 plt.imshow(data[:, :, axial_middle, 10].T, cmap="gray", origin="lower")
-plt.savefig("tracking_quickstart_output/images/data.png", bbox_inches="tight")
+plt.savefig("quick_start/data.png", bbox_inches="tight")
 plt.show()
 
 ###############################################################################
@@ -147,7 +149,7 @@ print(S0s.shape)
 ###############################################################################
 # Just, for fun let's save this in a new Nifti file.
 
-save_nifti("tracking_quickstart_output/data/HARDI193_S0.nii.gz", S0s, affine)
+save_nifti("quick_start/HARDI193_S0.nii.gz", S0s, affine)
 
 ###############################################################################
 # Now, that we learned how to load dMRI datasets we can start the analysis.

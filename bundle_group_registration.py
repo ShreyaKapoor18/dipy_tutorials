@@ -35,12 +35,14 @@ We start by importing and creating the necessary functions:
 """
 
 import logging
+import os
 
 from dipy.align.streamlinear import groupwise_slr
 from dipy.data import read_five_af_bundles
 from dipy.viz.streamline import show_bundles
 
 logging.basicConfig(level=logging.INFO)
+os.makedirs("bundle_group_registration", exist_ok=True)
 
 ###############################################################################
 # To run groupwise registration we need to have our input bundles stored in a
@@ -62,7 +64,7 @@ colors = [
 ]
 
 show_bundles(
-    bundles, interactive=False, colors=colors, save_as="bundle_group_registration_output/before_group_registration.png"
+    bundles, interactive=False, colors=colors, save_as="bundle_group_registration/before_group_registration.png"
 )
 
 ###############################################################################
@@ -85,7 +87,7 @@ show_bundles(
     bundles_reg,
     interactive=False,
     colors=colors,
-    save_as="bundle_group_registration_output/after_group_registration.png",
+    save_as="bundle_group_registration/after_group_registration.png",
 )
 
 ###############################################################################
