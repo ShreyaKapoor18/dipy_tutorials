@@ -62,7 +62,7 @@ colors = [
 ]
 
 show_bundles(
-    bundles, interactive=False, colors=colors, save_as="before_group_registration.png"
+    bundles, interactive=False, colors=colors, save_as="bundle_group_registration_output/before_group_registration.png"
 )
 
 ###############################################################################
@@ -85,7 +85,7 @@ show_bundles(
     bundles_reg,
     interactive=False,
     colors=colors,
-    save_as="after_group_registration.png",
+    save_as="bundle_group_registration_output/after_group_registration.png",
 )
 
 ###############################################################################
