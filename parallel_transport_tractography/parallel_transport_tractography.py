@@ -15,6 +15,8 @@ The resulting tractogram is saved as a ``.trx`` file and optionally
 rendered with FURY.
 """
 
+from pathlib import Path
+
 from dipy.core.gradients import gradient_table
 from dipy.data import default_sphere, get_fnames
 from dipy.io.gradients import read_bvals_bvecs
@@ -27,6 +29,8 @@ from dipy.tracking.streamline import Streamlines
 from dipy.tracking.tracker import ptt_tracking
 from dipy.tracking.utils import seeds_from_mask
 from dipy.viz import actor, colormap, has_fury, window
+
+OUT_DIR = Path(__file__).parent
 
 # Enables/disables interactive visualization
 interactive = False
@@ -64,12 +68,12 @@ streamline_generator = ptt_tracking(
 
 streamlines = Streamlines(streamline_generator)
 sft = StatefulTractogram(streamlines, hardi_img, Space.RASMM)
-save_tractogram(sft, "parallel_transport_tractography/tractogram_ptt.trx")
+save_tractogram(sft, str(OUT_DIR / "tractogram_ptt.trx"))
 
 if has_fury:
     scene = window.Scene()
     scene.add(actor.line(streamlines, colors=colormap.line_colors(streamlines)))
-    window.record(scene=scene, out_path="parallel_transport_tractography/tractogram_ptt.png", size=(800, 800))
+    window.record(scene=scene, out_path=str(OUT_DIR / "tractogram_ptt.png"), size=(800, 800))
     if interactive:
         window.show(scene)
 

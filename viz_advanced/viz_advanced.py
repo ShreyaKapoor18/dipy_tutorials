@@ -10,7 +10,7 @@ but tailored to the needs of structural and diffusion imaging.
 Let's start by importing the necessary modules.
 """
 
-import os
+from pathlib import Path
 
 import numpy as np
 
@@ -48,7 +48,7 @@ except ImportError:
 #
 # First we need to fetch and load some datasets.
 
-os.makedirs("viz_advanced", exist_ok=True)
+OUT_DIR = Path(__file__).parent
 
 fetch_bundles_2_subjects()
 
@@ -277,7 +277,7 @@ interactive = True
 # ``viz_advanced_tutorial.mp4``. Requires ``imageio`` and ``imageio-ffmpeg``.
 
 record_video = True
-video_path = "viz_advanced/viz_advanced_tutorial.mp4"
+video_path = str(OUT_DIR / "viz_advanced_tutorial.mp4")
 
 scene.zoom(1.5)
 scene.reset_clipping_range()
@@ -319,7 +319,7 @@ if interactive:
 else:
     window.record(
         scene=scene,
-        out_path="viz_advanced/bundles_and_3_slices.png",
+        out_path=str(OUT_DIR / "bundles_and_3_slices.png"),
         size=(1200, 900),
         reset_camera=False,
     )

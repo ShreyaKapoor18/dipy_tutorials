@@ -22,7 +22,7 @@ to create a tractography reconstruction from a diffusion data set.
 Let's begin by importing the necessary modules.
 """
 
-import os
+from pathlib import Path
 
 import matplotlib.pyplot as plt
 
@@ -48,10 +48,10 @@ if has_fury:
 # will need to be connected to the internet and this dataset will be downloaded
 # to your computer.
 
+OUT_DIR = Path(__file__).parent
+
 # Enables/disables interactive visualization
 interactive = False
-
-os.makedirs("tracking_introduction_eudx", exist_ok=True)
 
 hardi_fname, hardi_bval_fname, hardi_bvec_fname = get_fnames(name="stanford_hardi")
 label_fname = get_fnames(name="stanford_labels")
@@ -104,7 +104,7 @@ if has_fury:
         )
     )
 
-    window.record(scene=scene, out_path="tracking_introduction_eudx/csa_direction_field.png", size=(900, 900))
+    window.record(scene=scene, out_path=str(OUT_DIR / "csa_direction_field.png"), size=(900, 900))
 
     if interactive:
         window.show(scene, size=(800, 800))
@@ -137,7 +137,7 @@ plt.imshow(csa_peaks.gfa[:, :, sli].T, cmap="gray", origin="lower")
 plt.subplot(1, 2, 2).set_axis_off()
 plt.imshow((csa_peaks.gfa[:, :, sli] > 0.25).T, cmap="gray", origin="lower")
 
-plt.savefig("tracking_introduction_eudx/gfa_tracking_mask.png")
+plt.savefig(str(OUT_DIR / "gfa_tracking_mask.png"))
 
 ###############################################################################
 # .. rst-class:: centered small fst-italic fw-semibold
@@ -190,7 +190,7 @@ if has_fury:
     scene.add(streamlines_actor)
 
     # Save still images for this static example. Or for interactivity use
-    window.record(scene=scene, out_path="tracking_introduction_eudx/tractogram_EuDX.png", size=(800, 800))
+    window.record(scene=scene, out_path=str(OUT_DIR / "tractogram_EuDX.png"), size=(800, 800))
     if interactive:
         window.show(scene)
 
@@ -207,7 +207,7 @@ if has_fury:
 # loaded into other software for visualization or further analysis.
 
 sft = StatefulTractogram(streamlines, hardi_img, Space.RASMM)
-save_tractogram(sft, "tracking_introduction_eudx/tractogram_EuDX.trx")
+save_tractogram(sft, str(OUT_DIR / "tractogram_EuDX.trx"))
 
 ###############################################################################
 # References
